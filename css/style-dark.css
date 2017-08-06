@@ -1,3 +1,8 @@
+body, textarea {
+    /* help reduce flickering while loading */
+    background: #393939;
+}
+
 .toolbar, .button-trans {
     background: #303030;
 }

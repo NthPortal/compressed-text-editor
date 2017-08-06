@@ -1,3 +1,8 @@
+body, textarea {
+    /* help reduce flickering while loading */
+    background: #ddd;
+}
+
 .toolbar, .button-trans {
     background: #ccc;
 }
