@@ -11,11 +11,11 @@
     background: #999;
 }
 
-#share-link {
+#copy-link {
     background: #209090;
 }
 
-#share-link:hover, #share-link:focus {
+#copy-link:hover, #copy-link:focus {
     background: #166464;
 }
 
