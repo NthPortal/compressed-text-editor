@@ -194,7 +194,7 @@
             try {
                 editor.setValue(pako.inflateRaw(atob(h.slice(1)), deflateOpts));
             } catch (err) {
-                console.log(err);
+                console.error(err);
                 toastr.error("See console for details", "Error loading text");
             }
             clearTimeout(loadingTimeout);
