@@ -1,0 +1,57 @@
+.toolbar, .button-trans {
+    background: #303030;
+}
+
+.button {
+    color: #fff;
+}
+
+.button-trans:hover, .button-trans:focus {
+    background: #282828;
+}
+
+#save-text {
+    background: #166464;
+}
+
+#save-text:hover, #save-text:focus {
+    background: #124848;
+}
+
+#clear-text {
+    background: #990000;
+}
+
+#clear-text:hover, #clear-text:focus {
+    background: #770000;
+}
+
+.modal-contents {
+    background-color: #303030;
+    color: #f5f5f5;
+}
+
+.modal-contents hr {
+    background: #282828;
+}
+
+.modal-close:hover, .modal-close:focus {
+    background: #282828;
+}
+
+.CodeMirror {
+    background: #393939;
+    color: #f5f5f5;
+}
+
+.CodeMirror-cursor {
+    border-left: 1px solid #bbb !important;
+}
+
+.CodeMirror-gutters {
+    background: #303030;
+}
+
+div.CodeMirror-selected {
+    background: #555 !important;
+}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Editor</title>
+
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu|Ubuntu+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- un-minified, for dev -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"
+            integrity="sha384-p7RDedFtQzvcp0/3247fDud39nqze/MUmahi6MOWjyr3WKWaMOyqhXuCT1sM9Q+l"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.js"
+            integrity="sha384-ph76mR0W+Z/3+JTfCgW7I+2WZrKUE1M2EabdJVneuKwpssRuQggPhzQJ3oDectWZ"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.js"
+            integrity="sha384-2oQeExpmhgj6uQgAGccG9DbAjLdoaNsfWwfnEWyiu/SCuhmdT5f0gT1j+8uwOTTz"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.css"
+          integrity="sha384-MD6zhovZ9zyNUpx2FepMO8dm88ZMFqKfLt+s/Us+6uy4dHM8oyPvRZj0boMmc4uK" crossorigin="anonymous">
+
+    <!-- minified -->
+    <!--
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"
+                integrity="sha384-VgWGwiEJnh9P379lbU8DxPcfRuFkfLl0uPuL9tolOHtm2tx8Qy8d/KtvovfM0Udh"
+                crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.js"
+                integrity="sha384-ggIz/g4n/xqUxjulFlRcuVxkmj2mmH1tQl0ED7ChsOps2ZaJhnR71Trp38MXDqQu"
+                crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.css"
+              integrity="sha384-yrO23ics6kDWPetsnqRPPUa9AmFW2JzwBpTjnqHGux46qnEK6RYpsN38ZQarvqnP" crossorigin="anonymous">
+    -->
+
+    <link rel="stylesheet" href="css/main.css">
+
+    <script type="text/javascript">
+        var lightDarkStyleKey = "editor-style";
+        var styleDark = "dark";
+        var styleLight = "light";
+
+        function getLightDarkStyle() {
+            var style = window.localStorage.getItem(lightDarkStyleKey);
+            if (style === styleLight) {
+                return styleLight;
+            } else {
+                return styleDark;
+            }
+        }
+
+        function deleteOldStyle() {
+            var prev = $("#style-link")[0];
+            if (prev !== null && prev !== undefined) {
+                prev.remove();
+            }
+        }
+
+        function setStyleDark() {
+            window.localStorage.setItem(lightDarkStyleKey, styleDark);
+            deleteOldStyle();
+            $('head').append('<link id="style-link" rel="stylesheet" href="css/style-dark.css">');
+        }
+
+        function setStyleLight() {
+            window.localStorage.setItem(lightDarkStyleKey, styleLight);
+            deleteOldStyle();
+            $('head').append('<link id="style-link" rel="stylesheet" href="css/style-light.css">');
+        }
+
+        if (getLightDarkStyle() === styleDark) {
+            setStyleDark();
+        } else {
+            setStyleLight();
+        }
+    </script>
+</head>
+<body>
+<div id="help-modal" class="modal-container">
+    <div class="modal-contents">
+        <div class="modal-header">
+            <button id="help-modal-close" class="button button-trans modal-close">
+                <i class="material-icons">close</i>
+            </button>
+            <h2>Help</h2>
+        </div>
+        <hr>
+        <div class="modal-body">
+            <p>Click <i class="material-icons small-icon">invert_colors</i> to switch between light and dark themes</p>
+            <p>Click <i class="material-icons small-icon">delete</i> with an empty editor to clear history</p>
+            <p><kbd>Ctrl</kbd>+<kbd>S</kbd> / <kbd>Cmd</kbd>+<kbd>S</kbd> to save</p>
+            <p>Drag and drop a file into the editor to load it</p>
+        </div>
+    </div>
+</div>
+
+<div class="toolbar">
+    <button id="save-text" title="Save" class="button"><i class="material-icons">file_download</i></button>
+    <button id="toggle-light-dark" title="Toggle Theme" class="button button-trans">
+        <i class="material-icons">invert_colors</i>
+    </button>
+    <button id="undo" title="Undo" class="button button-trans"><i class="material-icons">undo</i></button>
+    <button id="redo" title="Redo" class="button button-trans"><i class="material-icons">redo</i></button>
+    <button id="help" title="Help" class="button button-trans"><i class="material-icons">help</i></button>
+    <button id="clear-text" title="Clear" class="button"><i class="material-icons">delete</i></button>
+</div>
+
+<div id="text">
+    <textarea id="editor" title="Editor"></textarea>
+</div>
+
+<script type="text/javascript">
+    var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
+        lineNumbers: true,
+        lineWrapping: true
+    });
+
+    editor.focus();
+
+    var helpModal = $("#help-modal");
+
+    /* misc functions */
+    function saveText() {
+        var blob = new Blob([editor.getValue()], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, "untitled.txt");
+        editor.focus();
+    }
+
+    function showHelp() {
+        helpModal[0].style.display = "block";
+    }
+
+    function hideHelp() {
+        helpModal[0].style.display = "none";
+        editor.focus();
+    }
+
+    function doUndo() {
+        editor.undo();
+        editor.focus();
+    }
+
+    function doRedo() {
+        editor.redo();
+        editor.focus();
+    }
+
+    function clearText() {
+        if (editor.getValue() === "") {
+            editor.clearHistory();
+        } else {
+            editor.setValue("");
+        }
+        editor.focus();
+    }
+
+    function toggleLightDarkStyle() {
+        if (getLightDarkStyle() === styleLight) {
+            setStyleDark();
+        } else {
+            setStyleLight();
+        }
+        editor.focus();
+    }
+
+    /* handle click events */
+    $("#save-text").click(saveText);
+    $("#toggle-light-dark").click(toggleLightDarkStyle);
+    $("#undo").click(doUndo);
+    $("#redo").click(doRedo);
+    $("#clear-text").click(clearText);
+
+    $("#help").click(showHelp);
+    $("#help-modal-close").click(hideHelp);
+
+    /* capture Ctrl+S */
+    document.addEventListener('keydown', function (event) {
+        if ((event.keyCode === 115 || event.keyCode === 83) && (event.ctrlKey || event.metaKey)) {
+            saveText();
+            event.preventDefault();
+            return false;
+        } else {
+            return true;
+        }
+    });
+
+    /* capture dropped file */
+    document.addEventListener('drop', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        var reader = new FileReader();
+        reader.onload = function () {
+            editor.setValue(reader.result);
+        };
+        reader.readAsText(event.dataTransfer.files[0]);
+    });
+
+    /* Hide modals when clicking outside of them */
+    window.onclick = function (event) {
+        if (event.target === helpModal[0]) {
+            hideHelp();
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+.toolbar, .button-trans {
+    background: #ccc;
+}
+
+.button {
+    color: #000; /* fallback */
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.button-trans:hover, .button-trans:focus {
+    background: #999;
+}
+
+#save-text {
+    background: #209090;
+}
+
+#save-text:hover, #save-text:focus {
+    background: #166464;
+}
+
+#clear-text {
+    background: #cc4040;
+}
+
+#clear-text:hover, #clear-text:focus {
+    background: #aa2020;
+}
+
+.modal-contents {
+    background-color: #ccc;
+    color: #0a0a0a;
+}
+
+.modal-contents hr {
+    background: #999;
+}
+
+.modal-close:hover, .modal-close:focus {
+    background: #999;
+}
+
+.CodeMirror {
+    background: #ddd;
+    color: #0a0a0a;
+}
+
+.CodeMirror-cursor {
+    border-left: 1px solid #393939 !important;
+}
+
+.CodeMirror-gutters {
+    background: #aaa;
+}
+
+.CodeMirror-linenumber {
+    color: #333;
+}
+
+div.CodeMirror-selected {
+    background: #999 !important;
+}
