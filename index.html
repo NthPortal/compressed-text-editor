@@ -239,32 +239,6 @@
         editor.focus();
     }
 
-    function maybeOpenLinkShortener() {
-        if (linkShortener !== null && linkShortener !== "") {
-            window.open(linkShortener, "_blank");
-        }
-    }
-
-    function copyLink() {
-        if (document.queryCommandSupported('copy')) {
-            var textArea = document.createElement("textarea");
-            textArea.style.position = 'fixed';
-            textArea.style.zIndex = -1;
-            textArea.value = window.location.href;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            toastr.success("Copied link to clipboard");
-            setTimeout(maybeOpenLinkShortener, 1000)
-        } else {
-            if (prompt('Copy the URL, then click "OK".', window.location.href)) {
-                maybeOpenLinkShortener();
-            }
-        }
-        editor.focus();
-    }
-
     function loadTextFromURL() {
         var h = window.location.hash;
         if (h !== "" && h !== "#") {
@@ -293,6 +267,33 @@
         } else {
             window.location.hash = '';
         }
+    }
+
+    function maybeOpenLinkShortener() {
+        if (linkShortener !== null && linkShortener !== "") {
+            window.open(linkShortener, "_blank");
+        }
+    }
+
+    function copyLink() {
+        storeTextToURL();
+        if (document.queryCommandSupported('copy')) {
+            var textArea = document.createElement("textarea");
+            textArea.style.position = 'fixed';
+            textArea.style.zIndex = -1;
+            textArea.value = window.location.href;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            toastr.success("Copied link to clipboard");
+            setTimeout(maybeOpenLinkShortener, 1000)
+        } else {
+            if (prompt('Copy the URL, then click "OK".', window.location.href)) {
+                maybeOpenLinkShortener();
+            }
+        }
+        editor.focus();
     }
 
     function updateURL() {
