@@ -10,11 +10,11 @@
     background: #282828;
 }
 
-#save-text {
+#copy-link {
     background: #166464;
 }
 
-#save-text:hover, #save-text:focus {
+#copy-link:hover, #copy-link:focus {
     background: #124848;
 }
 

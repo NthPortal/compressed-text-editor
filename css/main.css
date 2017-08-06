@@ -18,9 +18,10 @@ body {
     font-size: 16px;
 }
 
-#save-text {
+#copy-link {
     float: left;
 }
+
 #clear-text {
     float: right;
 }
@@ -63,6 +64,19 @@ body {
     cursor: default;
 }
 
+.modal-footer {
+    height: 50px;
+}
+
+#settings-save {
+    float: right;
+    background: #48a048;
+}
+
+#settings-save:hover, #settings-save:focus {
+    background: #308030;
+}
+
 #text {
     position: absolute;
     top: 50px;
@@ -89,4 +103,19 @@ body {
 
 .CodeMirror-gutters {
     border-right: 0;
+}
+
+#toast-container > div {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -moz-box-shadow: 0 0 0;
+    -webkit-box-shadow: 0 0 0;
+    box-shadow: 0 0 0;
+}
+
+#toast-container > div:hover {
+    -moz-box-shadow: 0 0 0;
+    -webkit-box-shadow: 0 0 0;
+    box-shadow: 0 0 0;
 }
