@@ -18,9 +18,10 @@ body {
     font-size: 16px;
 }
 
-#save-text {
+#share-link {
     float: left;
 }
+
 #clear-text {
     float: right;
 }

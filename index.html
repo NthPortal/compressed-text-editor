@@ -100,7 +100,7 @@
 </div>
 
 <div class="toolbar">
-    <button id="save-text" title="Save" class="button"><i class="material-icons">file_download</i></button>
+    <button id="share-link" title="Share Link" class="button"><i class="material-icons">share</i></button>
     <button id="toggle-light-dark" title="Toggle Theme" class="button button-trans">
         <i class="material-icons">invert_colors</i>
     </button>
@@ -159,6 +159,11 @@
         editor.focus();
     }
 
+    function shareLink() {
+        // TODO: impl
+        editor.focus();
+    }
+
     function toggleLightDarkStyle() {
         if (getLightDarkStyle() === styleLight) {
             setStyleDark();
@@ -169,7 +174,7 @@
     }
 
     /* handle click events */
-    $("#save-text").click(saveText);
+    $("#share-link").click(shareLink);
     $("#toggle-light-dark").click(toggleLightDarkStyle);
     $("#undo").click(doUndo);
     $("#redo").click(doRedo);
