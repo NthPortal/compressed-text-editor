@@ -44,6 +44,15 @@ body, textarea {
     background: #282828;
 }
 
+.setting-text-input {
+    color: #f5f5f5;
+    border-bottom: 2px solid #282828;
+}
+
+.setting-text-input:focus {
+    border-bottom: 2px solid black;
+}
+
 .CodeMirror {
     background: #393939;
     color: #f5f5f5;
