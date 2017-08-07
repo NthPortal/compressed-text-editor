@@ -243,6 +243,26 @@
         editor.focus();
     }
 
+    function encodeBase64(s) {
+        return btoa(s).replace(/[+\/=]/g, function (c) {
+            switch (c) {
+                case '+': return '-';
+                case '/': return '_';
+                case '=': return '~';
+            }
+        });
+    }
+
+    function decodeBase64(s) {
+        return atob(s.replace(/[-_~]/g, function (c) {
+            switch (c) {
+                case '-': return '+';
+                case '_': return '/';
+                case '~': return '=';
+            }
+        }));
+    }
+
     function loadTextFromURL() {
         var h = window.location.hash;
         if (h !== "" && h !== "#") {
@@ -251,7 +271,7 @@
                 loadingToast = toastr.info("Loading text...");
             }, 5);
             try {
-                editor.setValue(pako.inflateRaw(atob(h.slice(1)), deflateOpts));
+                editor.setValue(pako.inflateRaw(decodeBase64(h.slice(1)), deflateOpts));
             } catch (err) {
                 console.error(err);
                 toastr.error("See console for details", "Error loading text");
@@ -267,7 +287,7 @@
         var text = editor.getValue();
         if (text !== '') {
             var compressed = pako.deflateRaw(editor.getValue(), deflateOpts);
-            window.location.hash = btoa(compressed);
+            window.location.hash = encodeBase64(compressed);
         } else {
             window.location.hash = '';
         }
