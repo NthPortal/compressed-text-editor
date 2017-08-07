@@ -207,8 +207,6 @@
     function saveSettings() {
         linkShortener = linkShortenerSetting.val().trim();
         window.localStorage.setItem(linkShortenerKey, linkShortener);
-
-        loadSettings();
         hideSettings();
     }
 
@@ -218,6 +216,7 @@
 
     function hideSettings() {
         settingsModal[0].style.display = "none";
+        loadSettings();
         editor.focus();
     }
 
