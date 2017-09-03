@@ -33,12 +33,6 @@ function loadSettings() {
     linkShortenerSetting.val(linkShortener);
 }
 
-function saveSettings() {
-    linkShortener = linkShortenerSetting.val().trim();
-    window.localStorage.setItem(linkShortenerKey, linkShortener);
-    hideSettings();
-}
-
 function showSettings() {
     settingsModal[0].style.display = "block";
 }
@@ -47,6 +41,12 @@ function hideSettings() {
     settingsModal[0].style.display = "none";
     loadSettings();
     editor.focus();
+}
+
+function saveSettings() {
+    linkShortener = linkShortenerSetting.val().trim();
+    window.localStorage.setItem(linkShortenerKey, linkShortener);
+    hideSettings();
 }
 
 function doUndo() {
