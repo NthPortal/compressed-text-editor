@@ -6,7 +6,7 @@ var linkShortener = defaultLinkShortener;
 
 var helpModal = $("#help-modal");
 var storeTextToURLTimeout;
-var deflateOpts = {to: 'string'};
+var deflateOpts = {to: "string"};
 
 /* misc functions */
 function saveText() {
@@ -66,7 +66,7 @@ function clearText() {
         editor.clearHistory();
         var h = window.location.hash;
         if (h !== "") {
-            window.location.hash = '';
+            window.location.hash = "";
         }
     }
     editor.focus();
@@ -75,9 +75,9 @@ function clearText() {
 function encodeBase64(s) {
     return btoa(s).replace(/[+\/=]/g, function (c) {
         switch (c) {
-            case '+': return '-';
-            case '/': return '_';
-            case '=': return '~';
+            case "+": return "-";
+            case "/": return "_";
+            case "=": return "~";
         }
     });
 }
@@ -85,9 +85,9 @@ function encodeBase64(s) {
 function decodeBase64(s) {
     return atob(s.replace(/[-_~]/g, function (c) {
         switch (c) {
-            case '-': return '+';
-            case '_': return '/';
-            case '~': return '=';
+            case "-": return "+";
+            case "_": return "/";
+            case "~": return "=";
         }
     }));
 }
@@ -114,11 +114,11 @@ function loadTextFromURL() {
 
 function storeTextToURL() {
     var text = editor.getValue();
-    if (text !== '') {
+    if (text !== "") {
         var compressed = pako.deflateRaw(editor.getValue(), deflateOpts);
         window.location.hash = encodeBase64(compressed);
     } else {
-        window.location.hash = '';
+        window.location.hash = "";
     }
 }
 
@@ -130,19 +130,19 @@ function maybeOpenLinkShortener() {
 
 function copyLink() {
     storeTextToURL();
-    if (document.queryCommandSupported('copy')) {
+    if (document.queryCommandSupported("copy")) {
         var textArea = document.createElement("textarea");
-        textArea.style.position = 'fixed';
+        textArea.style.position = "fixed";
         textArea.style.zIndex = -1;
         textArea.value = window.location.href;
         document.body.appendChild(textArea);
         textArea.select();
-        document.execCommand('copy');
+        document.execCommand("copy");
         document.body.removeChild(textArea);
         toastr.success("Copied link to clipboard");
         setTimeout(maybeOpenLinkShortener, 1000);
     } else {
-        if (prompt('Copy the URL, then click "OK".', window.location.href)) {
+        if (prompt("Copy the URL, then click 'OK'.", window.location.href)) {
             maybeOpenLinkShortener();
         }
     }
@@ -177,10 +177,10 @@ $("#help").click(showHelp);
 $("#help-modal-close").click(hideHelp);
 
 /* store data on editor update */
-editor.on('change', updateURL);
+editor.on("change", updateURL);
 
 /* capture Ctrl+S */
-document.addEventListener('keydown', function (event) {
+document.addEventListener("keydown", function (event) {
     if ((event.keyCode === 115 || event.keyCode === 83) && (event.ctrlKey || event.metaKey)) {
         saveText();
         event.preventDefault();
@@ -191,7 +191,7 @@ document.addEventListener('keydown', function (event) {
 });
 
 /* capture dropped file */
-document.addEventListener('drop', function (event) {
+document.addEventListener("drop", function (event) {
     event.preventDefault();
     event.stopPropagation();
 
