@@ -140,7 +140,7 @@ function copyLink() {
         document.execCommand('copy');
         document.body.removeChild(textArea);
         toastr.success("Copied link to clipboard");
-        setTimeout(maybeOpenLinkShortener, 1000)
+        setTimeout(maybeOpenLinkShortener, 1000);
     } else {
         if (prompt('Copy the URL, then click "OK".', window.location.href)) {
             maybeOpenLinkShortener();
