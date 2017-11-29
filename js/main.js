@@ -6,12 +6,14 @@ var linkShortener = defaultLinkShortener;
 
 const helpModal = $("#help-modal");
 const deflateOpts = {to: "string"};
+const defaultFilename = "untitled.txt";
+var filename = defaultFilename;
 var storeTextToURLTimeout;
 
 /* misc functions */
 function saveText() {
-    saveAs(blob, "untitled.txt");
     let blob = new Blob([editor.getValue()], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, filename);
     editor.focus();
 }
 
@@ -64,6 +66,7 @@ function clearText() {
         editor.setValue("");
     } else {
         editor.clearHistory();
+        filename = defaultFilename;
         let h = window.location.hash;
         if (h !== "") {
             window.location.hash = "";
@@ -199,7 +202,10 @@ document.addEventListener("drop", function (event) {
     reader.onload = function () {
         editor.setValue(reader.result);
     };
-    reader.readAsText(event.dataTransfer.files[0]);
+
+    let file = event.dataTransfer.files[0];
+    filename = file.name;
+    reader.readAsText(file);
 });
 
 /* Hide modals when clicking outside of them */
