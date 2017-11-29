@@ -1,9 +1,9 @@
-var lightDarkStyleKey = "editor-style";
-var styleDark = "dark";
-var styleLight = "light";
+const lightDarkStyleKey = "editor-style";
+const styleDark = "dark";
+const styleLight = "light";
 
 function getLightDarkStyle() {
-    var style = window.localStorage.getItem(lightDarkStyleKey);
+    let style = window.localStorage.getItem(lightDarkStyleKey);
     if (style === styleLight) {
         return styleLight;
     } else {
@@ -12,7 +12,7 @@ function getLightDarkStyle() {
 }
 
 function deleteOldStyle() {
-    var prev = $("#style-link")[0];
+    let prev = $("#style-link")[0];
     if (prev !== null && prev !== undefined) {
         prev.remove();
     }
