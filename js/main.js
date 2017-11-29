@@ -1,17 +1,19 @@
-var settingsModal = $("#settings-modal");
-var linkShortenerSetting = $("#settings-link-shortener");
-var linkShortenerKey = "paste-setting-link-shortener";
-var defaultLinkShortener = null; // Set to an appropriate link shortener URL if desired
+const settingsModal = $("#settings-modal");
+const linkShortenerSetting = $("#settings-link-shortener");
+const linkShortenerKey = "paste-setting-link-shortener";
+const defaultLinkShortener = null; // Set to an appropriate link shortener URL if desired
 var linkShortener = defaultLinkShortener;
 
-var helpModal = $("#help-modal");
+const helpModal = $("#help-modal");
+const deflateOpts = {to: "string"};
+const defaultFilename = "untitled.txt";
+var filename = defaultFilename;
 var storeTextToURLTimeout;
-var deflateOpts = {to: "string"};
 
 /* misc functions */
 function saveText() {
-    var blob = new Blob([editor.getValue()], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "untitled.txt");
+    let blob = new Blob([editor.getValue()], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, filename);
     editor.focus();
 }
 
@@ -25,7 +27,7 @@ function hideHelp() {
 }
 
 function loadSettings() {
-    var shortener = window.localStorage.getItem(linkShortenerKey);
+    let shortener = window.localStorage.getItem(linkShortenerKey);
     if (shortener === null) {
         shortener = defaultLinkShortener;
     }
@@ -64,7 +66,8 @@ function clearText() {
         editor.setValue("");
     } else {
         editor.clearHistory();
-        var h = window.location.hash;
+        filename = defaultFilename;
+        let h = window.location.hash;
         if (h !== "") {
             window.location.hash = "";
         }
@@ -93,10 +96,10 @@ function decodeBase64(s) {
 }
 
 function loadTextFromURL() {
-    var h = window.location.hash;
+    let h = window.location.hash;
     if (h !== "" && h !== "#") {
-        var loadingToast = null;
-        var loadingTimeout = setTimeout(function () {
+        let loadingToast = null;
+        let loadingTimeout = setTimeout(function () {
             loadingToast = toastr.info("Loading text...");
         }, 5);
         try {
@@ -113,9 +116,9 @@ function loadTextFromURL() {
 }
 
 function storeTextToURL() {
-    var text = editor.getValue();
+    let text = editor.getValue();
     if (text !== "") {
-        var compressed = pako.deflateRaw(editor.getValue(), deflateOpts);
+        let compressed = pako.deflateRaw(editor.getValue(), deflateOpts);
         window.location.hash = encodeBase64(compressed);
     } else {
         window.location.hash = "";
@@ -131,7 +134,7 @@ function maybeOpenLinkShortener() {
 function copyLink() {
     storeTextToURL();
     if (document.queryCommandSupported("copy")) {
-        var textArea = document.createElement("textarea");
+        let textArea = document.createElement("textarea");
         textArea.style.position = "fixed";
         textArea.style.zIndex = -1;
         textArea.value = window.location.href;
@@ -195,11 +198,14 @@ document.addEventListener("drop", function (event) {
     event.preventDefault();
     event.stopPropagation();
 
-    var reader = new FileReader();
+    let reader = new FileReader();
     reader.onload = function () {
         editor.setValue(reader.result);
     };
-    reader.readAsText(event.dataTransfer.files[0]);
+
+    let file = event.dataTransfer.files[0];
+    filename = file.name;
+    reader.readAsText(file);
 });
 
 /* Hide modals when clicking outside of them */
